@@ -2037,6 +2037,8 @@ applydb_cgi(webs_t wp, char *urlPrefix, char *webDir, int arg,
 	char userm[] = "deleting";
 	char useping[] = "ping";
 	char useaping[] = "allping";
+	char usedlink[] = "dlink";
+	char useddlink[] = "ddlink";
 	
 	dbclient client;
 	dbclient_start(&client);
@@ -2072,9 +2074,13 @@ applydb_cgi(webs_t wp, char *urlPrefix, char *webDir, int arg,
 			if(strcmp(dbval,userm) == 0)
 				doSystem("dbus remove %s", dbvar);
 			else if(strcmp(dbval,useping) == 0)
-				doSystem("/etc_ro/ss/ping.sh %s >/dev/null 2>&1 &", dbvar);
+				doSystem("/etc_ro/ss/ping.sh %s", dbvar);
 			else if(strcmp(dbval,useaping) == 0)
-				doSystem("/etc_ro/ss/allping.sh >/dev/null 2>&1 &");
+				doSystem("/etc_ro/ss/allping.sh");
+			else if(strcmp(dbval,usedlink) == 0)
+				doSystem("/usr/bin/update_dlink.sh %s", "start");
+			else if(strcmp(dbval,useddlink) == 0)
+				doSystem("/usr/bin/update_dlink.sh %s", "reset");
 			else
 				doSystem("dbus set %s='%s'", dbvar, dbval);
 		}
@@ -2108,9 +2114,13 @@ applydb_cgi(webs_t wp, char *urlPrefix, char *webDir, int arg,
 			if(strcmp(dbval,userm) == 0)
 				doSystem("dbus remove %s", dbvar);
 			else if(strcmp(dbval,useping) == 0)
-				doSystem("/etc_ro/ss/ping.sh %s >/dev/null 2>&1 &", dbvar);
+				doSystem("/etc_ro/ss/ping.sh %s", dbvar);
 			else if(strcmp(dbval,useaping) == 0)
-				doSystem("/etc_ro/ss/allping.sh >/dev/null 2>&1 &");
+				doSystem("/etc_ro/ss/allping.sh");
+			else if(strcmp(dbval,usedlink) == 0)
+				doSystem("/usr/bin/update_dlink.sh %s", "start");
+			else if(strcmp(dbval,useddlink) == 0)
+				doSystem("/usr/bin/update_dlink.sh %s", "reset");
 			else
 				doSystem("dbus set %s='%s'", dbvar, dbval);
 		}
@@ -4565,4 +4575,3 @@ struct ej_handler ej_handlers[] =
 	{ "openvpn_cli_cert_hook", openvpn_cli_cert_hook},
 	{ NULL, NULL }
 };
-
